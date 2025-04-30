@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 from openai import OpenAI
+import json
 from dotenv import load_dotenv
 
 # 載入 API 金鑰
@@ -22,24 +23,40 @@ model = st.selectbox("選擇 GPT 模型", ["gpt-4.1", "gpt-3.5-turbo"])
 if st.button("查詢單字") and word.strip():
     with st.spinner("請稍候，正在請求 GPT 回覆..."):
         prompt = f"""
-你是一位英文學習助理，請幫我解釋單字：「{word}」，以以下格式回覆：
+你是一位英文學習助理，請幫我解釋英文單字「{word}」，並以 JSON 格式回覆下列欄位，不要加入多餘文字：
 
-- 詞性：
-- 中文意思：
-- 英文例句：
-- 中文翻譯：
-- 常見搭配詞（collocations）：
+{{
+  "word": "{word}",
+  "part_of_speech": "",
+  "chinese_meaning": "",
+  "example_sentence": "",
+  "sentence_translation": "",
+  "collocations": []
+}}
+
+請務必以標準 JSON 格式回覆，所有欄位都要填寫。
 """
 
         try:
             response = client.chat.completions.create(
                 model=model,
                 messages=[{"role": "user", "content": prompt}],
+                max_tokens=200,
                 temperature=0.7
             )
-            reply = response.choices[0].message.content.strip()
-            st.success("GPT 回覆內容如下：")
-            st.markdown(reply.replace("\n", "  \n"))
+            reply = response.choices[0].text.strip()
+
+            try:
+                json_data = json.loads(reply)
+                st.write(f"### {json_data['word']}")
+                st.write(f"**詞性**：{json_data['part_of_speech']}")
+                st.write(f"**中文意思**：{json_data['chinese_meaning']}")
+                st.write(f"**英文例句**：{json_data['example_sentence']}")
+                st.write(f"**中文翻譯**：{json_data['sentence_translation']}")
+                st.write(f"**常見搭配詞**：{', '.join(json_data['collocations'])}")
+            except Exception as e:
+                st.warning("回覆無法解析為 JSON，以下為原始文字：")
+                st.markdown(reply.replace("\n", "  \n"))
         except Exception as e:
             st.error(f"發生錯誤：{str(e)}")
 else:

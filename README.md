@@ -1,16 +1,18 @@
 # 📘 vocab-gpt-helper
 
-A simple vocabulary assistant powered by OpenAI's ChatGPT.  
-Enter any English word, and get instant explanations in Chinese, example sentences, and more.
+This application helps you look up the meaning of English words, including their part of speech, Chinese translation, example sentences, sentence translation, and common collocations. It uses GPT-4 to provide accurate responses.
 
 ## 🛠️ Features
 
-- One-word input → GPT-generated explanation
-- Output includes:
+- Enter an English word, and the AI will provide the following details:
+
   - Part of speech
-  - Meaning in Chinese
-  - Example sentence
-  - Translation of the sentence
+  - Chinese meaning
+  - Example sentence in English
+  - Sentence translation to Chinese
+  - Common collocations
+
+- The response is returned in JSON format and displayed in the frontend.
 
 ## 🖥️ Tech Stack
 
