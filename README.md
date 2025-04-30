@@ -1,28 +1,35 @@
 # 📘 vocab-gpt-helper
 
-This application helps you look up the meaning of English words, including their part of speech, Chinese translation, example sentences, sentence translation, and common collocations. It uses GPT-4 to provide accurate responses.
+An interactive English vocabulary assistant powered by GPT-4, built with Streamlit.
 
 ## 🛠️ Features
 
-- Enter an English word, and the AI will provide the following details:
-
+- Input any English word and get:
   - Part of speech
   - Chinese meaning
-  - Example sentence in English
-  - Sentence translation to Chinese
+  - Example sentence + translation
   - Common collocations
-
-- The response is returned in JSON format and displayed in the frontend.
+- Clean UI with loading state and error handling
+- Fast and friendly GPT-based JSON response
 
 ## 🖥️ Tech Stack
 
-- Python
+- Python 3.9+
 - [Streamlit](https://streamlit.io/)
 - OpenAI GPT API
+- Python-dotenv
 
 ## 📦 Installation
 
 ```bash
 cd vocab-gpt-helper
 pip install -r requirements.txt
+```
+
+## Set up your .env
+
+Create a file named .env with your OpenAI API Key:
+
+```ini
+OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxx
 ```
