@@ -22,4 +22,7 @@ if st.button("🔍 Lookup"):
         except json.JSONDecodeError:
             st.error("The response format was incorrect. Please try again.")
         except Exception as e:
-            st.error(f"An error occurred: {e}")
+            if "429" in str(e):
+                st.error("Error 429: Request limit reached or quota exceeded (e.g., insufficient credits).")
+            else:
+                st.error(f"An error occurred: {e}")
